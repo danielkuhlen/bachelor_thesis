@@ -8,11 +8,11 @@ library(rio)
 library(tm)
 
 # data import ------------------------------------------------------------------
-tweets <- import("output_data/tweets_tidy.rds")
+tweets <- import("/Users/danielkuhlen/Desktop/uni/ba/02_data/02_output_data/tweets_tidy.rds")
 
 # import & datawrangling metadata
-candidates2021_raw <- import("raw_data/twitter2021.rds")
-institutions2021_raw <- import("raw_data/epin2021.rds")
+candidates2021_raw <- import("/Users/danielkuhlen/Desktop/uni/ba/02_data/01_raw_data/twitter2021.rds")
+institutions2021_raw <- import("/Users/danielkuhlen/Desktop/uni/ba/02_data/01_raw_data/epin2021.RDs")
 
 
 # datawrangling ----------------------------------------------------------------
@@ -198,5 +198,5 @@ rm(cleaned_text, tweets_corpus, cleaned_tokens, tweets)
 
 # data export ------------------------------------------------------------------
 
-export(tweets_master, "output_data/tweets_master.rds")
-export(pol_twitter_accounts, "output_data/pol_twitter_accounts.rds")
+export(tweets_master, "/Users/danielkuhlen/Desktop/uni/ba/02_data/02_output_data/tweets_master.rds")
+export(pol_twitter_accounts, "/Users/danielkuhlen/Desktop/uni/ba/02_data/02_output_data/pol_twitter_accounts.rds")

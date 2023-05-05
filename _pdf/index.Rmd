@@ -57,7 +57,7 @@ library(scales)
 
 ```{r dataimport-index, include = FALSE}
 # global data import -----------------------------------------------------------
-tweets <- import("../..//02_data/02_output_data/tweets_master.rds")
+tweets <- import("../../02_data/02_output_data/tweets_master.rds")
 accounts <- import("../../02_data/02_output_data/pol_twitter_accounts.rds")
 
 # import twitter accounts

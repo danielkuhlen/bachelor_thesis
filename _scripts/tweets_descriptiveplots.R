@@ -9,10 +9,10 @@ library(grid)
 # data import ------------------------------------------------------------------
 
 # import tweets
-tweets <- import("output_data/tweets_master.rds")
+tweets <- import("/Users/danielkuhlen/Desktop/uni/ba/02_data/02_output_data/tweets_master.rds")
 
 # import twitter accounts
-candidates2021_raw <- import("raw_data/twitter2021.rds")
+candidates2021_raw <- import("/Users/danielkuhlen/Desktop/uni/ba/02_data/01_raw_data/twitter2021.rds")
 
 # datawrangling ----------------------------------------------------------------
 
