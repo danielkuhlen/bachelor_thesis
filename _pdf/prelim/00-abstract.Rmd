@@ -1,0 +1,3 @@
+# Abstract {-}
+
+In this study, I examine the tone of German parliamentary candidates' tweets before and after an election by employing sentiment dictionaries to analyze a large corpus of tweets spanning a one-year period. The objective is to uncover potential patterns and shifts in political communication on social media platforms during electioneering and post-election engagement. By doing so, I aim to contribute to the growing body of literature on political communication and sentiment analysis. This investigation offers valuable insights for political actors, campaign strategists, and scholars interested in the impact of digital communication on political behavior and public opinion.

@@ -1,0 +1,11 @@
+\newpage
+# Methodology
+
+## Identification Strategy
+
+### Unit of Analysis
+
+### Treatment and Outcome
+
+### Assumptions
+

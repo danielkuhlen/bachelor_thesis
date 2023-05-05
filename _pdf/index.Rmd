@@ -1,0 +1,65 @@
+---
+################################################################################
+# Required Information --------------------------------------------------------
+################################################################################
+title: "Sentiment Analysis of German Parliamentary Candidates' Tweets:\nA Longitudinal Study on Electioneering Tone and Post-Election Shifts"
+type: "Bachelor's Thesis"
+author: "Daniel Kuhlen"
+matriculation_number: "609376"
+date: "`r format(Sys.Date(), '%B %d, %Y')`"
+university: "Humboldt-Universität zu Berlin"
+institute: "Institut für Sozialwissenschaften" 
+chair: "Innenpolitik der Bundesrepublik Deutschland"
+advisor1: "Prof. Dr. Jochen Müller"
+advisor2: "Prof. Dr. Dont Know"            
+program: "Bachelor of Arts in Sozialwissenschaften"
+################################################################################
+# Optional Information ---------------------------------------------------------
+################################################################################
+abstract: |  
+  `r if(knitr:::is_latex_output()) paste(readLines("prelim/00-abstract.Rmd"), collapse = '\n  ')`
+acknowledge: |  
+  `r if(knitr:::is_latex_output()) paste(readLines("prelim/00-acknowledge.Rmd"), collapse = '\n  ')`
+abbreviations: |  
+  `r if(knitr:::is_latex_output()) paste(readLines("prelim/00-abbreviations.Rmd"), collapse = '\n  ')`
+lot: true                              # list of tables
+lof: true                              # list of figures
+link-citations: true
+bibliography: /Users/danielkuhlen/Desktop/uni/ressourcen/zotero/mylibrary.bib   
+################################################################################
+# Rendering Options ------------------------------------------------------------
+################################################################################
+knit: "bookdown::render_book"
+output: 
+  huwiwidown::thesis_pdf  
+space_between_paragraphs: true
+---
+
+```{r packages-index, include = FALSE}
+# include huwiwidown package ---------------------------------------------------
+if (!require(devtools)) {
+  install.packages("devtools", repos = "http://cran.rstudio.com")
+}
+if (!require(huwiwidown)) {
+  devtools::install_github("phister/huwiwidown")
+  library(huwiwidown)
+}
+
+# other packages ---------------------------------------------------------------
+library(tidyverse)
+library(rio)
+library(knitr)
+library(kableExtra)
+library(grid)
+library(extrafont)
+library(scales)
+```
+
+```{r dataimport-index, include = FALSE}
+# global data import -----------------------------------------------------------
+tweets <- import("../02_output_data/tweets_master.rds")
+accounts <- import("../02_output_data/pol_twitter_accounts.rds")
+
+# import twitter accounts
+candidates2021_raw <- import("../01_raw_data/twitter2021.rds")
+```

@@ -1,0 +1,56 @@
+\newpage
+\appendix
+
+# Appendix
+
+## Figures
+
+\newpage
+## Tables
+
+\begin{table}[H]
+    \begin{center}
+        \caption{A Detailed Description of the Variables included in the Tweets-Dataset}
+        \label{tab:apptable}
+        {\footnotesize
+        \begin{tabularx}{\textwidth}{L|L|L} % Adjust the column types
+        \hline \hline
+        Variable Name & Type & Source \\
+        \hline
+        `r gsub("_", "\\\\_", colnames(tweets)[1])` & Categorical & Twitter API \\
+        `r gsub("_", "\\\\_", colnames(tweets)[2])` & Categorical & Twitter API \\
+        `r gsub("_", "\\\\_", colnames(tweets)[3])` & Text Data & Twitter API \\
+        `r gsub("_", "\\\\_", colnames(tweets)[4])` & Text Data & Twitter API \\
+        `r gsub("_", "\\\\_", colnames(tweets)[5])` & Categorical & Twitter API \\
+        `r gsub("_", "\\\\_", colnames(tweets)[6])` & Date & Twitter API \\
+        `r gsub("_", "\\\\_", colnames(tweets)[7])` & Continuous & Twitter API \\
+        `r gsub("_", "\\\\_", colnames(tweets)[8])` & Continuous & Twitter API \\
+        `r gsub("_", "\\\\_", colnames(tweets)[9])` & Continuous & Twitter API \\
+        `r gsub("_", "\\\\_", colnames(tweets)[10])` & Categorical & GLES / EPIN \\
+        `r gsub("_", "\\\\_", colnames(tweets)[11])` & Categorical & GLES / EPIN \\
+        `r gsub("_", "\\\\_", colnames(tweets)[12])` & Categorical & GLES / EPIN \\
+        `r gsub("_", "\\\\_", colnames(tweets)[13])` & Categorical & GLES / EPIN \\
+        `r gsub("_", "\\\\_", colnames(tweets)[14])` & Categorical & GLES / EPIN \\
+        `r gsub("_", "\\\\_", colnames(tweets)[15])` & Categorical & GLES / EPIN \\
+        `r gsub("_", "\\\\_", colnames(tweets)[16])` & Binary & GLES \\
+        `r gsub("_", "\\\\_", colnames(tweets)[17])` & Binary & GLES \\
+        `r gsub("_", "\\\\_", colnames(tweets)[18])` & Binary & GLES \\
+        `r gsub("_", "\\\\_", colnames(tweets)[19])` & Binary & EPIN \\
+        `r gsub("_", "\\\\_", colnames(tweets)[20])` & Binary & EPIN \\
+        `r gsub("_", "\\\\_", colnames(tweets)[21])` & Binary & EPIN \\
+        `r gsub("_", "\\\\_", colnames(tweets)[22])` & Binary & EPIN \\
+        `r gsub("_", "\\\\_", colnames(tweets)[23])` & Binary & EPIN \\
+        `r gsub("_", "\\\\_", colnames(tweets)[24])` & Binary & EPIN \\
+        `r gsub("_", "\\\\_", colnames(tweets)[25])` & Binary & EPIN \\
+        `r gsub("_", "\\\\_", colnames(tweets)[26])` & Binary & Twitter API \\
+        `r gsub("_", "\\\\_", colnames(tweets)[27])` & Categorical & Twitter API \\
+        `r gsub("_", "\\\\_", colnames(tweets)[28])` & Date & Twitter API \\
+        `r gsub("_", "\\\\_", colnames(tweets)[29])` & Categorical & Twitter API \\
+        `r gsub("_", "\\\\_", colnames(tweets)[30])` & Continuous & Twitter API \\
+        `r gsub("_", "\\\\_", colnames(tweets)[31])` & Continuous & Twitter API \\
+        `r gsub("_", "\\\\_", colnames(tweets)[32])` & Continuous & Twitter API \\
+        `r gsub("_", "\\\\_", colnames(tweets)[33])` & Continuous & Twitter API \\
+        \hline \hline
+        \end{tabularx}}
+    \end{center}
+\end{table}

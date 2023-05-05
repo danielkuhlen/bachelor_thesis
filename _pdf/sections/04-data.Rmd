@@ -1,0 +1,168 @@
+\newpage
+
+```{r datawrangling-04-data, echo=FALSE, warning=FALSE, message=FALSE}
+################################################################################
+# General ----------------------------------------------------------------------
+################################################################################
+
+# datasets to reference in the text
+candidates <- accounts %>%
+  filter(!is.na(gender))
+
+partyaccounts <- accounts %>%
+  filter(is.na(gender))
+
+################################################################################
+# For Plot Percentage Account --------------------------------------------------
+################################################################################
+
+# datawrangling ----------------------------------------------------------------
+
+candidates2021 <- candidates2021_raw %>%
+  mutate(name = paste(firstname, lastname),
+         gender = recode(gender,
+                         "w" = "female",
+                         "m" = "male",
+                         "d" = "diverse"),
+         party = recode(party,
+                        "DIE LINKE" = "LINKE"),
+         twitter_active = ifelse(is.na(screen_name1), 0, 1)) %>%
+  rename(twitter_handle = screen_name1,
+         listed_candidate = isListed,
+         direct_candidate = isDC,
+         region = state) %>%
+  select(name, twitter_handle, gender, party, district_name, district_number,
+         region, incumbent, listed_candidate, direct_candidate, twitter_active)
+
+
+# percentage with twitter account by party -------------------------------------
+party_totals <- candidates2021 %>%
+  group_by(party) %>%
+  summarize(total = n())
+
+percentage.accounts <- candidates2021 %>%
+  group_by(party, twitter_active) %>%
+  summarize(count = n()) %>%
+  left_join(party_totals, by = "party") %>%
+  mutate(percentage = count / total * 100,
+         party = factor(party,
+                        levels = c("LINKE", "GRÜNE", "SPD", "FDP",
+                                   "CDU", "CSU", "AfD"))) %>%
+  ungroup()
+
+# variables for referencing in text --------------------------------------------
+gruene_active_percentage <- percentage.accounts %>%
+  filter(party == "GRÜNE" & twitter_active == 1) %>%
+  pull(percentage)
+
+cdu_active_percentage <- percentage.accounts %>%
+  filter(party == "CDU" & twitter_active == 1) %>%
+  pull(percentage)
+```
+
+# Data
+
+In order to collect the data for analysis, I first obtained the Twitter handles for all relevant accounts using two hand curated datasets: [@konigEPINetzTwitterPoliticians2022] and [@saltzerTwitterAccountsCandidates2021]. These datasets not only provide the Twitter handles for candidates, politicians, and parties but also offer valuable metadata, including party affiliation, age, and other relevant information. Then I used the Twitter API to crawl all tweets and retweets posted by the accounts within a one year time frame before and after the election for the 20th German Bundestag (federal parliament) on the September 26, 2021.
+
+As a result the final dataset employed contains `r format(nrow(tweets), big.mark = ".", scientific = FALSE)` tweets from from `r format(nrow(candidates), big.mark = ".", scientific = FALSE)` candidates and `r format(nrow(partyaccounts), big.mark = ".", scientific = FALSE)` party accounts affiliated with the SPD, CDU, FDP, Linke, Grüne and AfD. A detailed descriptions of the variables is provided in Table \ref{tab:apptable}.
+
+## Descriptives
+
+Politicians use Twitter extremely unevenly, and systematic differences between the parties are apparent. Representatives from conservative parties with an older electorate tend to use more *traditional* campaign media strategies, whereas politicians affiliated with progressive parties that attract a younger demographic, tend to utilize *modern* campaign media platforms such as Twitter, Instagram, and TikTok **(CITATION)**.
+
+This is trend holds true for German politicians as well. As shown in Figure `@ref(fig:plot-percentage-account)`, `r round(gruene_active_percentage, 1)`% Grüne candidates have an account on Twitter, compared to a substantially lower `r round(cdu_active_percentage, 1)`% of CDU candidates.
+
+```{r plot-percentage-account, echo=FALSE, warning=FALSE, message=FALSE, fig.cap="Percentage of Candidates with an Account on Twitter", fig.pos="H"}
+ggplot(data = percentage.accounts, aes(x = party,
+             y = percentage,
+             fill = interaction(party, factor(twitter_active)))) +
+  geom_bar(stat = "identity",
+           position = position_dodge(width = .5)) +
+  geom_text(data = . %>% filter(twitter_active == 1),
+            aes(x = party, y = percentage, label = sprintf("%.1f", percentage)),
+            position = position_dodge(width = .5),
+            vjust = -0.5,
+            size = 3,
+            family = "LM Roman 10",
+            hjust = -.02) +
+  labs(x = "",
+       y = "",
+       title = "",
+       legend = "",
+       caption = "Note: The party-colored bars represent the percentage of candidates with a Twitter account, while the grey bars\nindicate the percentage without one.") +
+  guides(fill = guide_legend(title = NULL)) +
+  scale_fill_manual(values = c("LINKE.0" = "#C0C0C0AA", "LINKE.1" = "#BE3075",
+                               "GRÜNE.0" = "#C0C0C0AA", "GRÜNE.1" = "#1AA037",
+                               "SPD.0" = "#C0C0C0AA", "SPD.1" = "#E3000F",
+                               "FDP.0" = "#C0C0C0AA", "FDP.1" = "#FFEF00",
+                               "CDU.0" = "#C0C0C0AA", "CDU.1" = "#000000",
+                               "CSU.0" = "#C0C0C0AA", "CSU.1" = "#0570C9",
+                               "AfD.0" = "#C0C0C0AA", "AfD.1" = "#0489DB"),
+                    labels = rep(c("No Twitter", "Has Twitter"), 7)) +
+  scale_y_continuous(limits = c(0, 80),
+                     breaks = seq(0, 80, 10),
+                     labels = scales::percent(seq(0, .8, 0.1))) +
+  theme_bw() +
+  theme(legend.position = "none",
+        plot.caption = element_text(hjust = 0,
+                                  size = 8,
+                                  margin = margin(t = 0)),
+        text = element_text(family = "LM Roman 10"))
+
+# variables for referencing in text --------------------------------------------
+gruene_active_percentage <- percentage.accounts %>%
+  filter(party == "GRÜNE" & twitter_active == 1) %>%
+  pull(percentage)
+
+cdu_active_percentage <- percentage.accounts %>%
+  filter(party == "CDU" & twitter_active == 1) %>%
+  pull(percentage)
+```
+
+
+
+```{r plot-tweets-amounty-byparty, echo=FALSE, warning=FALSE, message=FALSE, fig.cap="Number of Tweets posted by Party", fig.pos="H"}
+dot_separator <- label_number(big.mark = ".")
+
+tweets %>%
+  group_by(party) %>%
+  summarise(tweet_count = n()) %>%
+  mutate(party = factor(party,
+                        levels = c("LINKE", "GRUENE", "SPD", "FDP",
+                                   "CDU", "CSU", "AfD"))) %>%
+  ungroup() %>%
+  mutate(party = reorder(party, tweet_count, FUN = max)) %>% # Reorder the factor levels
+  ggplot(aes(x = party,
+             y = tweet_count,
+             fill = party)) +
+  geom_bar(stat = "identity", width = .6) +
+  geom_text(aes(label = comma(tweet_count, big.mark = ".")),
+          hjust = -0.5,
+          size = 3,
+          family = "LM Roman 10") +
+  labs(x = "",
+       y = "",
+       title = "",
+       subtitle = "",
+       legend = "") +
+  guides(fill = guide_legend(title = NULL)) +
+  scale_fill_manual(values = c("LINKE" = "#BE3075",
+                               "GRUENE" = "#1AA037",
+                               "SPD" = "#E3000F",
+                               "FDP" = "#FFEF00",
+                               "CDU" = "#000000",
+                               "CSU" = "#0570C9",
+                               "AfD" = "#0489DB")) +
+  scale_y_continuous(limits = c(0, 300000),
+                     breaks = seq(0, 300000, 50000),
+                     labels = dot_separator) +
+  theme_bw() +
+  theme(text = element_text(family = "LM Roman 10"),
+        legend.position = "none",
+        plot.caption = element_text(hjust = 0,
+                                    size = 8,
+                                    face="italic",
+                                    margin = margin(t = 8))) +
+  coord_flip()
+```
+

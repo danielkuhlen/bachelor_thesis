@@ -1,0 +1,6 @@
+# Acknowledgements {-}
+
+I want to thank Andreas Küpfer for granting me access to his Twitter API,
+which enabled the collection of tweets for this thesis. I also extend my 
+appreciation to Elias Koch, Linda Naddaf, Luna Strauch, Philipp Kuhlen, Vandross
+Alage and Zorbey Özcan for their contributions to the manual coding of the tweets.
